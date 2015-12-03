@@ -32,6 +32,9 @@ public class GamePanel extends JPanel {
 		
 		g.setColor(Color.black);
 		g.fillRect(10,20,50,50);
+		
+		g.setColor(Color.orange);
+		g.drawLine(60, 20, 90, 30);
 	}
 	
 	
