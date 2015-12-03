@@ -1,7 +1,11 @@
+
+import java.awt.Color;
+import java.awt.Graphics;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class gamePanel extends JPanel {
+public class GamePanel extends JPanel {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -12,8 +16,23 @@ public class gamePanel extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
+		GamePanel panel = new GamePanel();
+		
+		frame.add(panel);
 		
 		frame.setVisible(true);
 	}
+	
+	public GamePanel(){}
 
+	@Override
+	protected void paintComponent(Graphics g) {
+		g.setColor(Color.cyan);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		g.setColor(Color.black);
+		g.fillRect(10,20,50,50);
+	}
+	
+	
 }
