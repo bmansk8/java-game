@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
-
+	
+	boolean right=true;
+	boolean down=false;
 	int player_x=10;
 	int player_y=10;
 	
@@ -45,14 +47,41 @@ public class GamePanel extends JPanel {
 	}
 
 	private void gameLoop(){
-		player_x++;
+		
+		if(right == true){
+			player_x +=5;
+		}else{
+			player_x -=5;
+		}
+		
+		if(down == true){
+			player_y +=5;
+		}else{
+			player_y -=5;
+		}
+		
+		if(player_x+50 > getWidth()){
+			right = false;
+		}
+		
+		if(player_x < 0){
+			right = true;
+		}
+		
+		if(player_y < 0){
+			down = true;
+		}
+		
+		if(player_y+50 > getHeight()){
+			down = false;
+		}
 		
 	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		g.setColor(Color.cyan);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		//g.setColor(Color.cyan);
+		//g.fillRect(0, 0, getWidth(), getHeight());
 		
 		g.setColor(Color.black);
 		g.fillRect(player_x,player_y,50,50);
