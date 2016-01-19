@@ -55,24 +55,41 @@ public class GamePanel extends JPanel implements KeyListener {
 	}
 
 	private void gameLoop(){
-	//boolean verticalInput = upHeld	|| downHeld;
-	//boolean horizontalInput = leftHeld	|| rightHeld;
-		
-	if(upHeld){
-		player_y-=6;
+		double sqrt2 = Math.sqrt(2);
+		boolean verticalInput = upHeld	|| downHeld;
+		boolean horizontalInput = leftHeld	|| rightHeld;
+			
+		if(upHeld){
+			if(!horizontalInput){
+			player_y-=6;
+			}else{
+			player_y-= (int)(6 / sqrt2);	
+			}
 		}
-	
-	if(downHeld){
-		player_y+=6;
-		}	
-	
-	if(leftHeld){
-		player_x-=6;
-		}	
-	
-	if(rightHeld){
-		player_x+=6;
-		}	
+		
+		if(downHeld){
+			if(!horizontalInput){
+			player_y+=6;
+			}else{
+			player_y+= (int)(6 / sqrt2);	
+			}
+		}
+		
+		if(leftHeld){
+			if(!verticalInput){
+			player_x-=6;
+			}else{
+			player_x-= (int)(6 / sqrt2);	
+			}
+		}
+		
+		if(rightHeld){
+			if(!verticalInput){
+			player_x+=6;
+			}else{
+			player_x+= (int)(6 / sqrt2);	
+			}
+		}
 	}
 	
 	@Override
