@@ -10,11 +10,7 @@ import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel  {
 	
-	KeyboardController keyboard;
-	
-	int player_x=10;
-	int player_y=10;
-	
+	Player player;
 	
 	
 	public static void main(String[] args) {
@@ -34,9 +30,9 @@ public class GamePanel extends JPanel  {
 	}
 	
 	private GamePanel(){
+		player = new Player();
 		
-		keyboard = new KeyboardController();
-		this.addKeyListener(keyboard);
+		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
 		requestFocus();
 		new Thread(){
@@ -56,41 +52,7 @@ public class GamePanel extends JPanel  {
 	}
 
 	private void gameLoop(){
-		double sqrt2 = Math.sqrt(2);
-		boolean verticalInput = keyboard.isUpHeld()	|| keyboard.isDownHeld();
-		boolean horizontalInput = keyboard.isLeftHeld()	|| keyboard.isRightHeld();
-			
-		if(keyboard.isUpHeld()){
-			if(!horizontalInput){
-			player_y-=6;
-			}else{
-			player_y-= (int)(6 / sqrt2);	
-			}
-		}
-		
-		if(keyboard.isDownHeld()){
-			if(!horizontalInput){
-			player_y+=6;
-			}else{
-			player_y+= (int)(6 / sqrt2);	
-			}
-		}
-		
-		if(keyboard.isLeftHeld()){
-			if(!verticalInput){
-			player_x-=6;
-			}else{
-			player_x-= (int)(6 / sqrt2);	
-			}
-		}
-		
-		if(keyboard.isRightHeld()){
-			if(!verticalInput){
-			player_x+=6;
-			}else{
-			player_x+= (int)(6 / sqrt2);	
-			}
-		}
+		player.gameLoop();
 	}
 	
 	@Override
@@ -98,8 +60,7 @@ public class GamePanel extends JPanel  {
 		g.setColor(Color.cyan);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
-		g.setColor(Color.black);
-		g.fillRect(player_x,player_y,50,50);
+		player.draw(g);
 		
 	}
 
