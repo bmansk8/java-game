@@ -3,9 +3,10 @@ import java.awt.Graphics;
 
 public class Player {
 	private int x, y;
+	private int dx,dy;
 	
 	public Player(){
-		this(10,10);
+		this(100,0);
 	}
 	
 	public Player(int x,int y){
@@ -15,48 +16,67 @@ public class Player {
 	}
 	
 	public void gameLoop(){
+		getInputMovement();
+		checkCollisions();
+		applyMovement();
 		
+		
+	}
+	
+	private void getInputMovement(){
 		double sqrt2 = Math.sqrt(2);
 		boolean verticalInput = KeyboardController.isUpHeld()	|| KeyboardController.isDownHeld();
 		boolean horizontalInput = KeyboardController.isLeftHeld()	|| KeyboardController.isRightHeld();
 			
+		dx = 0;
+		dy = 0;
+		
 		if(KeyboardController.isUpHeld()){
 			if(!horizontalInput){
-			y-=6;
+			dy=-6;
 			}else{
-			y-= (int)(6 / sqrt2);	
+			dy-= (int)(6 / sqrt2);	
 			}
 		}
 		
 		if(KeyboardController.isDownHeld()){
 			if(!horizontalInput){
-			y+=6;
+			dy+=6;
 			}else{
-			y+= (int)(6 / sqrt2);	
+			dy+= (int)(6 / sqrt2);	
 			}
 		}
 		
 		if(KeyboardController.isLeftHeld()){
 			if(!verticalInput){
-			x-=6;
+			dx-=6;
 			}else{
-			x-= (int)(6 / sqrt2);	
+			dx-= (int)(6 / sqrt2);	
 			}
 		}
 		
 		if(KeyboardController.isRightHeld()){
 			if(!verticalInput){
-			x+=6;
+			dx+=6;
 			}else{
-			x+= (int)(6 / sqrt2);	
+			dx+= (int)(6 / sqrt2);	
 			}
 		}
+		
 	}
 	
+	private void checkCollisions(){
+		Solid[] solids = GamePanel.getInstance().getSolids();
+	}
+	
+	private void applyMovement(){
+		x += dx;
+		y += dy;
+	}
 	
 	public void draw(Graphics g){
 		
-		g.setColor(Color.black);
+		g.setColor(Color.blue);
 		g.fillRect(x,y,50,50);
 	}
 	
