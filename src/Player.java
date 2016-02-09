@@ -4,6 +4,7 @@ import java.awt.Graphics;
 public class Player {
 	private int x, y;
 	private int dx,dy;
+	private int width,height;
 	
 	public Player(){
 		this(100,0);
@@ -12,6 +13,8 @@ public class Player {
 	public Player(int x,int y){
 		this.x = x;
 		this.y = y;
+		width = 50;
+		height = 50;
 		
 	}
 	
@@ -67,6 +70,38 @@ public class Player {
 	
 	private void checkCollisions(){
 		Solid[] solids = GamePanel.getInstance().getSolids();
+		int myLeft = x + dx;
+		int myRight = myLeft + width;
+		int myTop = y + dy;
+		int myBot = myTop + height;
+		for(Solid solid : solids){
+			int sLeft = solid.getX();
+			int sRight = sLeft + solid.getWidth();
+			int sTop = solid.getY();
+			int sBot = sTop + solid.getHeight();
+			
+			boolean xOverlaps = myLeft < sRight && sLeft < myRight;
+			boolean yOverlaps = myTop < sBot && sTop < myBot;
+			if(xOverlaps && yOverlaps){
+				boolean yDidOverlap = myTop-dy < sBot && sTop < myBot-dy;
+				boolean horCollission = yDidOverlap;
+				if(horCollission){
+					if(myLeft < sLeft){//colision wth left of solid
+						x = sLeft - width;
+					}else{//colliosion wth right of solid
+					x  = sRight;
+					}
+					dx=0;
+				}else{
+					if(myTop < sTop){//collsion with top of solid
+						y = sTop - height;
+					}else{//collsion w/ bot of solid
+						y = sBot;
+					}
+					dy=0;
+				}
+			}
+		}
 	}
 	
 	private void applyMovement(){
@@ -77,7 +112,7 @@ public class Player {
 	public void draw(Graphics g){
 		
 		g.setColor(Color.blue);
-		g.fillRect(x,y,50,50);
+		g.fillRect(x,y,width,height);
 	}
 	
 	
