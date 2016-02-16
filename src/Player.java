@@ -6,6 +6,8 @@ public class Player {
 	private int dx,dy;
 	private int width,height;
 	
+	private int startx,starty;
+	
 	public Player(){
 		this(100,0);
 	}
@@ -15,6 +17,8 @@ public class Player {
 		this.y = y;
 		width = 50;
 		height = 50;
+		startx = x;
+		starty = y;
 		
 	}
 	
@@ -74,6 +78,7 @@ public class Player {
 		int myRight = myLeft + width;
 		int myTop = y + dy;
 		int myBot = myTop + height;
+		
 		for(Solid solid : solids){
 			int sLeft = solid.getX();
 			int sRight = sLeft + solid.getWidth();
@@ -102,6 +107,20 @@ public class Player {
 				}
 			}
 		}
+		Enemy[] enemies =GamePanel.getInstance().getEnemies();
+		for(Enemy enemy : enemies){
+			int sLeft = enemy.getX();
+			int sRight = sLeft + enemy.getWidth();
+			int sTop = enemy.getY();
+			int sBot = sTop + enemy.getHeight();
+			
+			boolean xOverlaps = myLeft < sRight && sLeft < myRight;
+			boolean yOverlaps = myTop < sBot && sTop < myBot;
+			if(xOverlaps && yOverlaps){
+				x = startx;
+				y = starty;
+			}
+		}
 	}
 	
 	private void applyMovement(){
@@ -111,7 +130,7 @@ public class Player {
 	
 	public void draw(Graphics g){
 		
-		g.setColor(Color.blue);
+		g.setColor(Color.red);
 		g.fillRect(x,y,width,height);
 	}
 	
