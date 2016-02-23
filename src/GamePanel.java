@@ -27,7 +27,7 @@ public class GamePanel extends JPanel  {
 		// TODO Auto-generated method stub
 		
 		JFrame frame = new JFrame("game");
-		frame.setSize(600,500);
+		frame.setSize(700,600);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
@@ -44,12 +44,14 @@ public class GamePanel extends JPanel  {
 	private GamePanel(){
 		player = new Player();
 		
-		solids = new Solid[2];
+		solids = new Solid[3];
 		solids[0] = new Solid(400,400,64,64);
 		solids[1] = new Solid(100,400,64,64);
+		solids[2] = new Solid(100,100,64,64);
 		
-		enemies = new Enemy[1];
+		enemies = new Enemy[2];
 		enemies[0] = new Enemy (200,400);
+		enemies[1] = new Enemy (100,300,false);
 		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
