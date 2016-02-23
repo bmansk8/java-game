@@ -1,11 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
-public class Player {
-	private int x, y;
-	private int dx,dy;
-	private int width,height;
-	
+public class Player extends GameObject {
 	private int startx,starty;
 	
 	public Player(){
@@ -13,10 +10,7 @@ public class Player {
 	}
 	
 	public Player(int x,int y){
-		this.x = x;
-		this.y = y;
-		width = 50;
-		height = 50;
+		super(x,y,50,50);
 		startx = x;
 		starty = y;
 		
@@ -73,52 +67,46 @@ public class Player {
 	}
 	
 	private void checkCollisions(){
-		Solid[] solids = GamePanel.getInstance().getSolids();
+		
+		ArrayList<GameObject> objects = GamePanel.getInstance().getObjects();
+		
 		int myLeft = x + dx;
 		int myRight = myLeft + width;
 		int myTop = y + dy;
 		int myBot = myTop + height;
 		
-		for(Solid solid : solids){
-			int sLeft = solid.getX();
-			int sRight = sLeft + solid.getWidth();
-			int sTop = solid.getY();
-			int sBot = sTop + solid.getHeight();
+		for(GameObject object : objects){
+			int sLeft = object.getX();
+			int sRight = sLeft + object.getWidth();
+			int sTop = object.getY();
+			int sBot = sTop + object.getHeight();
 			
 			boolean xOverlaps = myLeft < sRight && sLeft < myRight;
 			boolean yOverlaps = myTop < sBot && sTop < myBot;
 			if(xOverlaps && yOverlaps){
-				boolean yDidOverlap = myTop-dy < sBot && sTop < myBot-dy;
-				boolean horCollission = yDidOverlap;
-				if(horCollission){
-					if(myLeft < sLeft){//colision wth left of solid
-						x = sLeft - width;
-					}else{//colliosion wth right of solid
-					x  = sRight;
+				if(object instanceof Solid){
+					boolean yDidOverlap = myTop-dy < sBot && sTop < myBot-dy;
+					boolean horCollission = yDidOverlap;
+					if(horCollission){
+						if(myLeft < sLeft){//colision wth left of solid
+							x = sLeft - width;
+						}else{//colliosion wth right of solid
+							x  = sRight;
+						}
+						dx=0;
+					}else{
+						if(myTop < sTop){//collsion with top of solid
+							y = sTop - height;
+						}else{//collsion w/ bot of solid
+							y = sBot;
+						}
+						dy=0;
 					}
-					dx=0;
-				}else{
-					if(myTop < sTop){//collsion with top of solid
-						y = sTop - height;
-					}else{//collsion w/ bot of solid
-						y = sBot;
-					}
-					dy=0;
 				}
-			}
-		}
-		Enemy[] enemies =GamePanel.getInstance().getEnemies();
-		for(Enemy enemy : enemies){
-			int sLeft = enemy.getX();
-			int sRight = sLeft + enemy.getWidth();
-			int sTop = enemy.getY();
-			int sBot = sTop + enemy.getHeight();
-			
-			boolean xOverlaps = myLeft < sRight && sLeft < myRight;
-			boolean yOverlaps = myTop < sBot && sTop < myBot;
-			if(xOverlaps && yOverlaps){
-				x = startx;
-				y = starty;
+				if(object instanceof Enemy){
+					x = startx;
+					y = starty;
+				}
 			}
 		}
 	}
@@ -132,15 +120,6 @@ public class Player {
 		
 		g.setColor(Color.red);
 		g.fillRect(x,y,width,height);
-	}
-	
-	
-	public int getX(){
-		return x;
-	}
-
-	public int getY() {
-		return y;
 	}
 	
 	
