@@ -4,7 +4,9 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Player extends GameObject {
+
 	private int startx,starty;
+	private int points=0;
 	
 	public Player(){
 		this(100,0);
@@ -14,7 +16,6 @@ public class Player extends GameObject {
 		super(x,y,50,50);
 		startx = x;
 		starty = y;
-		
 	}
 	
 	public void gameLoop(){
@@ -96,8 +97,10 @@ public class Player extends GameObject {
 		}  
 	}
 
-
-	
+	public void gainPoint(){
+		points++;
+		System.out.println(points);
+	}
 	
 	public void draw(Graphics g){
 		
