@@ -5,17 +5,18 @@ import java.util.ArrayList;
 public class GameObject {
     protected Rectangle bounds;
 	protected int dx, dy;
+	protected int id;
 
 	public GameObject(int x,int y){
-		bounds = new Rectangle(x,y,64,64);
-		dx = 0;
-		dy = 0;
+		this(x,y,64,64);
 	}
 	
 	public GameObject(int x,int y,int width,int height){
 		bounds = new Rectangle(x,y,width,height);
 		dx=0;
 		dy=0;
+		id = GamePanel.getInstance().getNewID();
+		System.out.println(id);
 	}
 	
 	public void gameLoop(){
@@ -75,6 +76,8 @@ public class GameObject {
 		bounds.translate(dx,dy);
 	}
 	
-	
+	protected void delete(){
+		GamePanel.getInstance().getObjects().remove(this);
+	}
 	
 }

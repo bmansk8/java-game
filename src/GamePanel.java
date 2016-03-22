@@ -10,6 +10,8 @@ public class GamePanel extends JPanel  {
 	
 	private ArrayList<GameObject> objects;
 	
+	private int next_id = 0;
+	
 	private static GamePanel instance;
 		
 		public static GamePanel getInstance(){
@@ -28,7 +30,7 @@ public class GamePanel extends JPanel  {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
-		GamePanel panel = new GamePanel();
+		GamePanel panel = GamePanel.getInstance();
 		instance = panel;
 		
 		
@@ -38,6 +40,8 @@ public class GamePanel extends JPanel  {
 	}
 	
 	private GamePanel(){
+		instance = this;
+		
 		objects = new ArrayList<GameObject>();
 		
 		objects.add(new Player() );
@@ -96,5 +100,9 @@ public class GamePanel extends JPanel  {
 		return objects;
 	}
 	
+	public int getNewID(){
+		return next_id++;
+		
+	}
 	
 }

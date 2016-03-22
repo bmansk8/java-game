@@ -1,7 +1,7 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 public class Player extends GameObject {
 
@@ -99,13 +99,17 @@ public class Player extends GameObject {
 
 	public void gainPoint(){
 		points++;
-		System.out.println(points);
 	}
 	
 	public void draw(Graphics g){
 		
 		g.setColor(Color.red);
 		g.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
+		
+		g.setColor(Color.WHITE);
+		Font font = new Font(null,Font.BOLD,18);
+		g.setFont(font);
+		g.drawString(points + "",(int)bounds.getCenterX(), (int)bounds.getCenterY() );
 	}
 	
 	
