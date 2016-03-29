@@ -2,13 +2,16 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel  {
 	
-	private ArrayList<GameObject> objects;
+	private HashMap <Integer,GameObject> objects;
+	private ArrayList<GameObject> objectsToRemove;
+	
 	
 	private static GamePanel instance;
 		
@@ -28,7 +31,7 @@ public class GamePanel extends JPanel  {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
-		GamePanel panel = new GamePanel();
+		GamePanel panel = GamePanel.getInstance();
 		instance = panel;
 		
 		
@@ -38,20 +41,23 @@ public class GamePanel extends JPanel  {
 	}
 	
 	private GamePanel(){
-		objects = new ArrayList<GameObject>();
+		instance = this;
 		
-		objects.add(new Player() );
+		objectsToRemove = new ArrayList<GameObject>();
+		objects = new HashMap<Integer,GameObject>();
+		
+		addObject(new Player() );
 		
 		
-		objects.add ( new Solid(400,400,64,64));
-		objects.add ( new Solid(100,400,64,64));
-		objects.add ( new Solid(100,100,64,64));
+		addObject ( new Solid(400,400,64,64));
+		addObject ( new Solid(100,400,64,64));
+		addObject ( new Solid(100,100,64,64));
 		
-		objects.add ( new Enemy (200,400));
-		objects.add ( new Enemy (100,300,false));
+		addObject ( new Enemy (200,400));
+		addObject ( new Enemy (100,300,false));
 		
-		objects.add( new Coin(200,400));
-		objects.add( new Coin(100,300));
+		addObject( new Coin(200,400));
+		addObject( new Coin(100,300));
 		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
@@ -74,9 +80,15 @@ public class GamePanel extends JPanel  {
 
 	private void gameLoop(){
 		
-		for(int i =0;i <objects.size(); i++){
-			objects.get(i).gameLoop();
+		for(GameObject object: objects.values()){
+			object.gameLoop();
 		}
+		
+		for(GameObject object : objectsToRemove){
+			objects.remove(object.getId());
+		}
+		
+		objectsToRemove.clear();
 	}
 	
 	@Override
@@ -92,9 +104,16 @@ public class GamePanel extends JPanel  {
 		
 	}
 	
-	public ArrayList<GameObject> getObjects(){
+	public HashMap<Integer,GameObject> getObjects(){
 		return objects;
 	}
 	
+	private void addObject(GameObject obj){
+		objects.put(obj.getId(),obj);
+	}
+	
+	public void removeObject(GameObject obj){
+		objectsToRemove.add(obj);
+	}
 	
 }
