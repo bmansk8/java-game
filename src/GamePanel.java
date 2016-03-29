@@ -97,9 +97,8 @@ public class GamePanel extends JPanel  {
 		p.fillRect(0, 0, getWidth(), getHeight());
 		
 		
-		for(int i =0;i<objects.size();i++){
-			objects.get(i).draw(p);
-			
+		for(GameObject object : objects.values()){
+			object.draw(p);
 		}
 		
 	}

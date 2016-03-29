@@ -2,9 +2,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Player extends GameObject {
-
+	
+    private BufferedImage img;
 	private int startx,starty;
 	private int points=0;
 	
@@ -16,6 +22,13 @@ public class Player extends GameObject {
 		super(x,y,50,50);
 		startx = x;
 		starty = y;
+		
+		try{
+			img = ImageIO.read(new File("img/player.png"));
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void gameLoop(){
@@ -102,14 +115,12 @@ public class Player extends GameObject {
 	}
 	
 	public void draw(Graphics g){
-		
-		g.setColor(Color.red);
-		g.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
+		g.drawImage(img,bounds.x,bounds.y,null);
 		
 		g.setColor(Color.WHITE);
 		Font font = new Font(null,Font.BOLD,18);
 		g.setFont(font);
-		g.drawString(points + "",(int)bounds.getCenterX(), (int)bounds.getCenterY() );
+		g.drawString(points + "",10,15 );
 	}
 	
 	

@@ -1,10 +1,24 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Coin extends GameObject {
 
+	private BufferedImage img;
+	
 	public Coin(int x, int y){
 		super(x,y);
+		
+		try {
+			img = ImageIO.read(new File("img/coin.png"));
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void gameLoop(){
@@ -20,7 +34,6 @@ public class Coin extends GameObject {
 	}
 	
 	public void draw(Graphics h){
-		h.setColor(Color.YELLOW);
-		h.fillOval(bounds.x, bounds.y, bounds.width, bounds.height);
+		h.drawImage(img, bounds.x, bounds.y, null);
 	}
 }
