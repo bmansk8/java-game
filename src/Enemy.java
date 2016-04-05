@@ -5,13 +5,11 @@ import java.awt.Rectangle;
 public class Enemy extends GameObject {
 	
 	public Enemy(int x,int y){
-		super(x,y,48,48);
-		dx = 4;
-		dy = 0;
+		this(x,y,true);
 	}
 	
     public Enemy(int x,int y, boolean horizontal){
-    	super(x,y,48,48);
+    	super(x,y,64,64,"enemy");
     	dx =(horizontal)? 4 : 0;
     	dy =(horizontal)? 0 : 4;
 
@@ -45,14 +43,6 @@ public class Enemy extends GameObject {
 				dy = -dy;
 			}
 		} 
-	}
-    
-    
-    public void draw(Graphics g){
-    	g.setColor(Color.BLUE);
-    	g.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
-    }
-    
-    
+	}    
     
 }

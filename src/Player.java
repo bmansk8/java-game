@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 
 public class Player extends GameObject {
 	
-    private BufferedImage img;
 	private int startx,starty;
 	private int points=0;
 	
@@ -19,16 +18,9 @@ public class Player extends GameObject {
 	}
 	
 	public Player(int x,int y){
-		super(x,y,50,50);
+		super(x,y,64,64,"player");
 		startx = x;
 		starty = y;
-		
-		try{
-			img = ImageIO.read(new File("img/player.png"));
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		
 	}
 	
 	public void gameLoop(){
@@ -115,7 +107,8 @@ public class Player extends GameObject {
 	}
 	
 	public void draw(Graphics g){
-		g.drawImage(img,bounds.x,bounds.y,null);
+		
+		super.draw(g);
 		
 		g.setColor(Color.WHITE);
 		Font font = new Font(null,Font.BOLD,18);
