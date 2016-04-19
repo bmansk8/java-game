@@ -13,13 +13,12 @@ public class GamePanel extends JPanel  {
 			{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
 			{'-','P','-','-','-','-','-','-','-','-','-','-','-',},
 			{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','S','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','V','-','-','C','-','-','-','-','-','-','-','-',},
-			{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','S','-','-','H','-','S','-','-','-','-','-','-',},
-			{'-','-','-','C','-','-','-','-','-','-','-','-','-',}
+			{'-','S','-','-','H','-','S','-','-','-','H','-','S',},
+			{'-','-','-','-','-','-','-','S','-','S','S','S','S',},
+			{'-','V','-','C','C','-','V','S','-','S','C','C','S',},
+			{'-','-','-','-','-','-','-','S','-','S','C','C','S',},
+			{'-','-','-','-','-','-','-','S','-','-','-','-','S',},
+			{'-','S','-','-','H','-','S','S','S','S','S','S','S',}
 	};
 	
 	private HashMap <Integer,GameObject> objects;
@@ -39,7 +38,7 @@ public class GamePanel extends JPanel  {
 		// TODO Auto-generated method stub
 		
 		JFrame frame = new JFrame("game");
-		frame.setSize(700,600);
+		frame.setSize(840,600);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
@@ -86,24 +85,12 @@ public class GamePanel extends JPanel  {
 				switch(level[i][j]){
 				case 'P':  addObject(new Player(j*64,i*64));break;
 				case 'C':  addObject(new Coin(j*64,i*64)); break;
+				case 'V':  addObject(new Enemy(j*64,i*64,false)); break;
+				case 'H':  addObject(new Enemy(j*64,i*64)); break;
+				case 'S':  addObject(new Solid(j*64,i*64)); break;
 				}
 			}
 		}
-		
-		/*
-		addObject(new Player() );
-		
-		
-		addObject ( new Solid(400,400,64,64));
-		addObject ( new Solid(100,400,64,64));
-		addObject ( new Solid(100,100,64,64));
-		
-		addObject ( new Enemy (200,400));
-		addObject ( new Enemy (100,300,false));
-		
-		addObject( new Coin(200,400));
-		addObject( new Coin(100,300));
-		*/
 	}
 
 	private void gameLoop(){

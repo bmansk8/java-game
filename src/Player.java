@@ -13,12 +13,16 @@ public class Player extends GameObject {
 	private int startx,starty;
 	private int points=0;
 	
+	private float frame=0;
+	private int numFrames =10;
+	private float frameSpeed = .2f;
+	
 	public Player(){
 		this(100,0);
 	}
 	
 	public Player(int x,int y){
-		super(x,y,64,64,"player");
+		super(x,y,64,64,"player_anim");
 		startx = x;
 		starty = y;
 	}
@@ -27,6 +31,7 @@ public class Player extends GameObject {
 		getInputMovement();
 		checkCollisions();
 		applyVelocity();
+		updateFrame();
 		
 	}
 	
@@ -101,20 +106,43 @@ public class Player extends GameObject {
 			bounds.setLocation(startx,starty);
 		}  
 	}
+	
+	private void updateFrame(){
+		if(dx<0 || (dx ==0 && dy!=0)){
+			frame += frameSpeed;
+			if(frame >= numFrames){
+				frame -= numFrames;
+			}
+		}
+		if(dx>0){
+			frame -= frameSpeed;
+			if(frame <0){
+				frame += numFrames;
+			}
+		}
+	}	
 
 	public void gainPoint(){
 		points++;
 	}
 	
 	public void draw(Graphics g){
-		
-		super.draw(g);
+		//super.draw(g);
+		g.drawImage(Resources.getInstance().getImage(imgName),
+				(int)bounds.getMinX(),(int)bounds.getMinY(),
+				(int)bounds.getMaxX(),(int)bounds.getMaxY(),
+				(int)frame * bounds.width,0,
+				(int)(frame+1)* bounds.width, bounds.height,
+				null);
 		
 		g.setColor(Color.WHITE);
 		Font font = new Font(null,Font.BOLD,18);
 		g.setFont(font);
 		g.drawString(points + "",10,15 );
 	}
+	
+	
+	
 	
 	
 }
