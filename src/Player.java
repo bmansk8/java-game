@@ -15,7 +15,7 @@ public class Player extends GameObject {
 	
 	private float frame=0;
 	private int numFrames =10;
-	private float frameSpeed = .2f;
+	private float frameSpeed = .25f;
 	
 	public Player(){
 		this(100,0);
