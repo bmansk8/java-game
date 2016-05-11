@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class Level {
 
@@ -6,6 +10,27 @@ public class Level {
 	public Level(char[][] level){
 		this.level = level;
 	}
+	
+	public Level(String fileName){
+		try{
+			Scanner scan = new Scanner(new FileInputStream(
+					new File("levels/"+fileName+".txt")));
+			int numRows = scan.nextInt();
+			int numCols = scan.nextInt();
+			scan.nextLine();
+			level = new char [numRows][numCols];
+			for(int i =0;i < numRows;i++){
+				String line = scan.nextLine();
+				level[i] = line.toCharArray();
+			}
+			scan.close();
+			
+			
+		}catch(FileNotFoundException e){
+			System.out.println("Could not find dat file dow");
+		}
+	}
+		
 	
 	public void load(){
 		GameManager.getInstance().clearRoom();
