@@ -6,20 +6,11 @@ import java.util.HashMap;
 public class GameManager {
 	private HashMap <Integer,GameObject> objects;
 	private ArrayList<GameObject> objectsToRemove;
+	private ArrayList<GameObject> objectsToAdd;
 	
 	private GamePanel panel;
 	
-	char[][] level = {
-			{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','P','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
-			{'-','S','-','-','H','-','S','-','-','-','H','-','S',},
-			{'-','-','-','-','-','-','-','S','-','S','S','S','S',},
-			{'-','V','-','C','C','-','V','S','-','S','C','C','S',},
-			{'-','-','-','-','-','-','-','S','-','S','C','C','S',},
-			{'-','-','-','-','-','-','-','-','-','-','-','-','S',},
-			{'-','S','-','-','H','-','S','S','S','S','S','S','S',}
-	};
+	private  HashMap<String,Level> levels;
 	
 	
 	//singleton
@@ -37,6 +28,7 @@ public class GameManager {
 		instance = this;
 		
 		objectsToRemove = new ArrayList<GameObject>();
+		objectsToAdd = new ArrayList<GameObject>();
 		objects = new HashMap<Integer,GameObject>();
 		
 		initLevel();
@@ -59,29 +51,61 @@ public class GameManager {
 	
 	
 	private void initLevel(){
-		for(int i =0; i< level.length;i++){
-			for(int j=0;j<level[i].length; j++){
-				switch(level[i][j]){
-				case 'P':  addObject(new Player(j*64,i*64));break;
-				case 'C':  addObject(new Coin(j*64,i*64)); break;
-				case 'V':  addObject(new Enemy(j*64,i*64,false)); break;
-				case 'H':  addObject(new Enemy(j*64,i*64)); break;
-				case 'S':  addObject(new Solid(j*64,i*64)); break;
-				}
-			}
-		}
+		levels = new HashMap<String, Level>();
+		
+		char[][] lvlData = {
+				{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
+				{'-','P','-','-','-','-','-','-','-','-','-','-','-',},
+				{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
+				{'-','S','-','-','H','-','S','-','-','-','H','-','S',},
+				{'-','-','-','-','-','-','-','S','-','S','S','S','S',},
+				{'-','V','-','C','C','-','V','S','-','S','C','O','S',},
+				{'-','-','-','-','-','-','-','S','-','S','C','C','S',},
+				{'-','-','-','-','-','-','-','-','-','-','-','-','S',},
+				{'-','S','-','-','H','-','S','S','S','S','S','S','S',}
+		};
+		
+		levels.put("level1",new Level(lvlData));
+		levels.get("level1").load();
+		
+		
+		char[][] lvlData2 = {
+				{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
+				{'-','P','-','-','-','-','-','-','-','-','-','-','-',},
+				{'-','-','-','-','-','-','-','-','-','-','-','-','-',},
+				{'S','-','-','-','H','-','S','-','-','-','H','-','S',},
+				{'-','S','-','-','-','-','-','S','-','S','S','S','S',},
+				{'C','S','-','C','C','-','V','S','-','S','C','C','S',},
+				{'-','S','S','-','-','-','-','S','-','S','C','C','S',},
+				{'-','-','-','-','-','-','-','-','-','-','-','-','S',},
+				{'S','-','-','-','H','-','S','S','S','S','S','S','S',}
+		};
+		
+		levels.put("level2",new Level(lvlData2));
+		
+	
 	}
 	
 	public HashMap<Integer,GameObject> getObjects(){
 		return objects;
 	}
 	
-	private void addObject(GameObject obj){
-		objects.put(obj.getId(),obj);
+	public void addObject(GameObject obj){
+		objectsToAdd.add(obj);
 	}
 	
 	public void removeObject(GameObject obj){
 		objectsToRemove.add(obj);
+	}
+	
+	public void clearRoom(){
+		for(GameObject object :objects.values()){
+			objectsToRemove.add(object);
+		}
+	}
+	
+	public void goToLevel(String lvl){
+		levels.get(lvl).load();
 	}
 	
 	private void gameLoop(){
@@ -95,6 +119,13 @@ public class GameManager {
 			}
 			
 			objectsToRemove.clear();
+			
+
+			for(GameObject object : objectsToAdd){
+				objects.put(object.getId(),object);
+			}
+			objectsToAdd.clear();
+			
 		}
 	
 	
