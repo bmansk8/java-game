@@ -100,6 +100,12 @@ public class Player extends GameObject {
 			
 			bounds.setLocation(startx,starty);
 		}  
+		
+		if(object instanceof Bullet){
+			bounds.setLocation(startx, starty);
+			object.delete();
+			
+		}
 	}
 	
 	private void updateFrame(){

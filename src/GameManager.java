@@ -66,11 +66,22 @@ public class GameManager {
 		};
 		
 		levels.put("level1",new Level(lvlData));
-		levels.get("level1").load();
 		
 		levels.put("level2",new Level("level2"));
 		
+		levels.put("Turret",new Level("turret"));
+		
+		levels.get("Turret").load();
 	
+	}
+	
+	
+	public int getRoomWidth(){
+		return panel.getWidth();
+	}
+	
+	public int getRoomHeight(){
+		return panel.getHeight();
 	}
 	
 	public HashMap<Integer,GameObject> getObjects(){
@@ -94,6 +105,7 @@ public class GameManager {
 	public void goToLevel(String lvl){
 		levels.get(lvl).load();
 	}
+	
 	
 	private void gameLoop(){
 			

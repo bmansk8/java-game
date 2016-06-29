@@ -44,6 +44,7 @@ public class Level {
 				case 'H':  GameManager.getInstance().addObject(new Enemy(j*64,i*64)); break;
 				case 'S':  GameManager.getInstance().addObject(new Solid(j*64,i*64)); break;
 				case 'O':  GameManager.getInstance().addObject(new Portal("level2",j*64,i*64)); break;
+				case 'T':  GameManager.getInstance().addObject(new Turret(j*64,i*64)); break;
 				}
 			}
 		}
